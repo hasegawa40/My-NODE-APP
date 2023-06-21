@@ -2,7 +2,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { SecretClient } = require("@azure/keyvault-secrets");
 
 async function getSecretFromVault(keyVaultName, secretName) {
-    const KVUri = `https://hasegawatestkeyvault.vault.azure.net/`;
+    const KVUri = `https://${keyVaultName}.vault.azure.net/`;
 
     const credential = new DefaultAzureCredential();
     const client = new SecretClient(KVUri, credential);
