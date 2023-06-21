@@ -2,7 +2,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { SecretClient } = require("@azure/keyvault-secrets");
 
 async function getSecretFromVault(keyVaultName, secretName) {
-    const KVUri = `https://${keyVaultName}.vault.azure.net`;
+    const KVUri = `https://hasegawatestkeyvault.vault.azure.net/`;
 
     const credential = new DefaultAzureCredential();
     const client = new SecretClient(KVUri, credential);
@@ -19,7 +19,7 @@ app.post('/query', async (req, res) => {
     const question = req.body.question;
 
     // OpenAI APIキーをAzure Key Vaultから取得します
-    const openAIKey = await getSecretFromVault('YourKeyVaultName', 'YourSecretName');
+    const openAIKey = await getSecretFromVault('hasegawatestKeyVault', 'openaikey');
 
     // OpenAIに質問を送信します
     try {
