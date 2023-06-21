@@ -19,7 +19,7 @@ app.post('/query', async (req, res) => {
     const question = req.body.question;
 
     // OpenAI APIキーをAzure Key Vaultから取得します
-    const openAIKey = await getSecretFromVault('hasegawatestKeyVault', 'open7b424588f10c44cf8b6363d92b5756f4aikey');
+    const openAIKey = await getSecretFromVault('hasegawatestKeyVault', 'openaikey');
 
     // OpenAIに質問を送信します
     try {
