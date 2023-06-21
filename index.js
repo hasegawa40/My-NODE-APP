@@ -43,7 +43,7 @@ app.post('/query', async (req, res) => {
         `);
     } catch (error) {
         console.error(error);
-        res.status(500).send('エラーが発生しました。');
+        res.status(500).send('エラーが発生しました。: ${error.message}');
     }
 });
 
