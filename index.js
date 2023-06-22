@@ -6,13 +6,26 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/', function (req, res) {
-  res.send('Hello, World!');
+// サンプルHTMLフォームを返すルートエンドポイント
+app.get('/', (req, res) => {
+    res.send(`
+        <form action="/query" method="post">
+            <label for="question">質問:</label><br>
+            <input type="text" id="question" name="question" value="OpenAIは何ですか？"><br>
+            <input type="submit" value="Submit">
+        </form>
+    `);
 });
 
+// フォームからの質問を処理するエンドポイント
 app.post('/query', async (req, res) => {
+    // フォームからの質問を取得します
     const question = req.body.question;
-    const openAIKey = "7b424588f10c44cf8b6363d92b5756f4";
+
+    // OpenAI APIキーを取得します
+    const openAIKey = process.env.OPENAI_KEY;
+
+    // OpenAIに質問を送信します
     try {
         const response = await axios.post('https://api.openai.com/v1/engines/davinci-codex/completions', {
             prompt: question,
@@ -23,7 +36,10 @@ app.post('/query', async (req, res) => {
             }
         });
 
-        const answer = response.data.choices[0].text;
+        // OpenAIからの回答を取得します
+        const answer = response.data.choices[0].text.trim();
+
+        // ユーザーに回答を表示します
         res.send(`
             <h1>回答</h1>
             <p>${answer}</p>
@@ -31,9 +47,10 @@ app.post('/query', async (req, res) => {
         `);
     } catch (error) {
         console.error(error);
-        res.status(500).send('エラーが発生しました。: ${error.message}');
+        res.status(500).send(`エラーが発生しました。: ${error.message}`);
     }
 });
 
-const port = process.env.PORT || 3000;
+// サーバーを起動します
+const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`App is running on port ${port}`));
