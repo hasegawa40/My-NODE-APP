@@ -27,7 +27,7 @@ app.post('/query', async (req, res) => {
 
     // OpenAIに質問を送信します
     try {
-        const response = await axios.post('https://api.openai.com/v1/engines/davinci-codex/completions', {
+        const response = await axios.post('https://hasegawatestai.openai.azure.com/', {
             prompt: question,
             max_tokens: 150
         }, {
